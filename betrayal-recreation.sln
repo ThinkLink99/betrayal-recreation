@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "betrayal-recreation-client", "CSOTH_API\betrayal-recreation-client.csproj", "{6DC6E742-B9FE-4FC5-A960-45902A198BBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonMaker", "JsonMaker\JsonMaker.csproj", "{1A018520-FEB6-4605-950E-8322A7336C14}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6DC6E742-B9FE-4FC5-A960-45902A198BBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DC6E742-B9FE-4FC5-A960-45902A198BBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DC6E742-B9FE-4FC5-A960-45902A198BBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DC6E742-B9FE-4FC5-A960-45902A198BBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A018520-FEB6-4605-950E-8322A7336C14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A018520-FEB6-4605-950E-8322A7336C14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A018520-FEB6-4605-950E-8322A7336C14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A018520-FEB6-4605-950E-8322A7336C14}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7068F156-F9F8-475E-9219-F233183B16BD}
+	EndGlobalSection
+EndGlobal
