@@ -37,5 +37,3 @@ public Game(Assembly assembly, string ResourcePath) {
 }
 ```
 This constructor sets a variable named `packName` equal to the name of the last folder in the `ResourcePath` then runs a function called `Setup(ResourcePath)`.
-# _**Donations**_
-This project is done completely out of passion with no intention of selling it or earning money off of it, however if you enjoy the project and would like to donate you can do so here: http://www.paypal.me/ThinkLink99
