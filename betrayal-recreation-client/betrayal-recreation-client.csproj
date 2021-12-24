@@ -57,6 +57,7 @@
     <Compile Include="BasicObjectInformation.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="Character.cs" />
+    <Compile Include="Debug.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="Player.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Session.cs" />
     <Compile Include="Room.cs" />
     <Compile Include="Token.cs" />
+    <Compile Include="TurnOrder.cs" />
     <Compile Include="Writable.cs" />
   </ItemGroup>
   <ItemGroup>

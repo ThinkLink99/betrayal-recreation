@@ -11,6 +11,9 @@ namespace betrayal_recreation_client
         private Queue<T> _drawPile;
         private Stack<T> _discardPile;
 
+        public Queue<T> DrawPile { get => _drawPile; set => _drawPile = value; }
+        public Stack<T> DiscardPile { get => _discardPile; set => _discardPile = value; }
+
         public Deck (ICollection<T> deck)
         {
             _drawPile = new Queue<T>(deck);
@@ -45,7 +48,6 @@ namespace betrayal_recreation_client
 
             _drawPile = new Queue<T>(shuffled);
         }
-
 
         public T Draw ()
         {

@@ -18,15 +18,17 @@
 
         private bool _startingRoom = false;
         private Floors[] _levels = new Floors[3];
+        private bool[] _hasDoors = new bool[4];
 
         public bool StartingRoom { get => _startingRoom; set => _startingRoom = value; }
         public Floors[] Levels { get { return _levels; } }
 
-        public Room(int id, string name, string description, Floors[] levels, bool startingRoom) :
+        public Room(int id, string name, string description, Floors[] levels, bool startingRoom, bool[] hasDoors) :
             base(id, name, description)
         {
             _levels = levels;
             _startingRoom = startingRoom;
+            _hasDoors = hasDoors;
         }
     }
 }
