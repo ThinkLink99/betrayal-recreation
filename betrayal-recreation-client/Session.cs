@@ -11,6 +11,15 @@ namespace betrayal_recreation_client
         {
             onDeckReshuffled?.Invoke();
         }
+
+        public static event Action<Room> onRoomDrawn;
+        public static void RoomDrawn (Room room)
+        {
+            onRoomDrawn?.Invoke(room);
+        }
+
+        // TODO: Replace string with Player once player controllers are set up
+        public static event Action<Room, string> onRoomLeave;
     }
 
     public class Session
@@ -45,9 +54,7 @@ namespace betrayal_recreation_client
                 new Grid(1, FLOOR_WIDTH, FLOOR_HEIGHT),
             };
 
-            _floors[(int)Room.LevelsEnum.Ground].SetCell(FLOOR_WIDTH / 2, (FLOOR_HEIGHT / 2) - 1, rooms[0]); 
-            _floors[(int)Room.LevelsEnum.Ground].SetCell(FLOOR_WIDTH / 2, (FLOOR_HEIGHT / 2), rooms[1]); 
-            _floors[(int)Room.LevelsEnum.Ground].SetCell(FLOOR_WIDTH / 2, (FLOOR_HEIGHT / 2) + 1, rooms[2]);
+            SetStartingRooms(rooms.Where(r => r.StartingRoom).ToArray());
         }
 
         public List<Grid> Floors { get => _floors; set => _floors = value; }
@@ -62,6 +69,44 @@ namespace betrayal_recreation_client
             foreach (Character c in _characters)
             {
                 Console.WriteLine($"{c.Name} ({c.Color} {c.Side})\n");
+            }
+        }
+
+        public Room DrawRoom ()
+        {
+            var r = _roomDeck.Draw();
+            GameEvents.RoomDrawn(r);
+            return r;
+        }
+        public void PlaceRoomOnFloor (Room.Floors floor, Room room, int x, int y)
+        {
+            _floors[(int)floor].SetCell(x, y, room);
+        }
+        public void LogFloors ()
+        {
+            Console.WriteLine(" == Basement Floor == ");
+            Floors[(int)Room.Floors.Basement].Print();
+
+            Console.WriteLine(" == Ground Floor == ");
+            Floors[(int)Room.Floors.Ground].Print();
+
+            Console.WriteLine(" == Upper Floor == ");
+            Floors[(int)Room.Floors.Upper].Print();
+        }
+
+        private void SetStartingRooms (Room[] startingRooms)
+        {
+            for (int i = 0; i < startingRooms.Length; i++)
+            {
+                Room room = startingRooms[i];
+                if (room.Levels[0] == Room.Floors.Ground)
+                {
+                    _floors[(int)room.Levels[0]].SetCell(FLOOR_WIDTH / 2, (FLOOR_HEIGHT / 2) - i, room);
+                }
+                else
+                {
+                    _floors[(int)room.Levels[0]].SetCell(FLOOR_WIDTH / 2, (FLOOR_HEIGHT / 2), room);
+                }
             }
         }
     }
