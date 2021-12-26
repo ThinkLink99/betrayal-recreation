@@ -53,7 +53,7 @@ namespace betrayal_recreation_client
                 for (int x = 0; x < _columns; x++)
                 {
                     var i = _grid[x, y].ID;
-                    borderV += i == 0 ? " " : i.ToString();
+                    borderV += i == -1 ? " " : i.ToString();
                     borderV += " ";
                 }
                 borderV += "|\n";

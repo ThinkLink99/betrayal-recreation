@@ -16,18 +16,19 @@ namespace betrayal_recreation_client
             List<Room> rooms = new List<Room>()
             {
                 // Starting Rooms
-                new Room(1, "Grand Entrance", "Grand Entrance", new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { true, true, false, true }),
-                new Room(2, "Foyer", "Foyer", new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { true, true, true, true }),
-                new Room(3, "Downstairs Landing", "Downstairs Landing", new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { false, true, true, true }),
-                new Room(4, "Upper Landing", "Upper Landing", new Room.Floors[] { Room.Floors.Upper }, true, new bool[] { true, true, true, true }),
-                new Room(5, "Basement Landing", "Basement Landing", new Room.Floors[] { Room.Floors.Basement }, true, new bool[] { true, true, true, true }),
+                new Room(1, "Grand Entrance", "Grand Entrance", CardType.None, new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { true, true, false, true }),
+                new Room(2, "Foyer", "Foyer", CardType.None, new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { true, true, true, true }),
+                new Room(3, "Downstairs Landing", "Downstairs Landing", CardType.None, new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { false, true, true, true }),
+                new Room(4, "Upper Landing", "Upper Landing", CardType.None, new Room.Floors[] { Room.Floors.Upper }, true, new bool[] { true, true, true, true }),
+                new Room(5, "Basement Landing", "Basement Landing", CardType.None, new Room.Floors[] { Room.Floors.Basement }, true, new bool[] { true, true, true, true }),
 
                 // Non-starting Rooms
-                new Room(6, "Hallway", "Hallway", new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { true, true, true, true }),
-                new Room(7, "Creaky Hallway", "Hallway", new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { true, true, true, true }),
-                //new Room(8, "Coal Chute", "Coal Chute", new Room.Floors[] { Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { false, false, true, false }),
-                //new Room(9, "Master Bedroom", "Master Bedroom", new Room.Floors[] { Room.Floors.Upper }, false, new bool[] { false, true, true, true }),
+                new Room(6, "Hallway", "Hallway", CardType.None, new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { true, true, true, true }),
+                new Room(7, "Creaky Hallway", "Hallway", CardType.None, new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { true, true, true, true }),
+                new Room(8, "Coal Chute", "Coal Chute", CardType.None, new Room.Floors[] { Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { false, false, true, false }),
+                new Room(9, "Master Bedroom", "Master Bedroom", CardType.Event, new Room.Floors[] { Room.Floors.Ground }, false, new bool[] { false, true, true, true }),
             };
+
             rooms[0].AdjacentRooms[(int)Room.Directions.North] = rooms[1];
             rooms[1].AdjacentRooms[(int)Room.Directions.South] = rooms[0];
             rooms[1].AdjacentRooms[(int)Room.Directions.North] = rooms[2];
@@ -41,7 +42,7 @@ namespace betrayal_recreation_client
             },
             new List<Character>()
             {
-                new Character(0, "Trey", "Mar 1 1999", "blue", new int[] { }, new int[] { }, new int[] { }, new int[] { }, 0, 0, 0, 0),
+                new Character(0, "Trey", "Mar 1 1999", "blue", new int[] { }, new int[] { }, new int[] { }, new int[] { 3 }, 0, 0, 0, 0),
                 new Character(1, "Dylan", "Jun 4 2002", "purple", new int[] { }, new int[] { }, new int[] { }, new int[] { }, 0, 0, 0, 0)
             });
 
@@ -51,13 +52,18 @@ namespace betrayal_recreation_client
             session.Players[0].SetCurrentRoom(session.StartingRooms[0]);
             session.Players[1].SetCurrentRoom(session.StartingRooms[0]);
 
-            Console.WriteLine($"Current Turn: {session.TurnOrder.CurrentPlayer.Name}");
-            Console.WriteLine($"Next Turn: {session.TurnOrder.NextPlayer.Name}");
+            session.StartTurn();
+            session.LogTurns();
+            Console.WriteLine($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
 
-            session.MoveCurrentPlayer(Room.Directions.North);
             session.MoveCurrentPlayer(Room.Directions.West);
 
+            Console.WriteLine($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
+
             session.LogFloors();
+
+            session.EndTurn();
+            session.LogTurns();
 
             Console.ReadKey();
         }

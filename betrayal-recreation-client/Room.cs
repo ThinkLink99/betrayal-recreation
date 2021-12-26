@@ -16,26 +16,26 @@
             Upper = 2
         }
 
-        private bool _startingRoom = false;
-        private Floors[] _levels = new Floors[3];
-        private bool[] _hasDoors = new bool[4];
         private Room[] _adjacentRooms = new Room[4];
+        private CardType _cardInRoom;
+        private bool[] _hasDoors = new bool[4];
+        private Floors[] _levels = new Floors[3];
+        private bool _startingRoom = false;
 
-        public bool StartingRoom { get => _startingRoom; set => _startingRoom = value; }
-        public Floors[] Levels { get { return _levels; } }
-
-        public bool[] HasDoors { get => _hasDoors; set => _hasDoors = value; }
         public Room[] AdjacentRooms { get => _adjacentRooms; set => _adjacentRooms = value; }
+        public CardType CardInRoom { get => _cardInRoom; }
+        public bool[] HasDoors { get => _hasDoors; set => _hasDoors = value; }
+        public Floors[] Levels { get { return _levels; } }
+        public bool StartingRoom { get => _startingRoom; set => _startingRoom = value; }
 
-        public Room(int id, string name, string description, Floors[] levels, bool startingRoom, bool[] hasDoors = null) :
+        public Room(int id, string name, string description, CardType cardInRoom, Floors[] levels, bool startingRoom, bool[] hasDoors = null) :
             base(id, name, description)
         {
+            _cardInRoom = cardInRoom;
             _levels = levels;
             _startingRoom = startingRoom;
             _hasDoors = hasDoors ?? new bool[4];
         }
-
-        public static Room Empty { get => new Room(0, "EMPTY", "EMPTY", null, false, new bool[] { false, false, false, false }); }
 
         public override bool Equals(object obj)
         {
@@ -56,6 +56,16 @@
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public static Room Empty { get => new Room(-1, "EMPTY", "EMPTY", CardType.None, null, false, new bool[] { false, false, false, false }); }
+    }
+
+    public class SpecialRoom : Room
+    {
+        public SpecialRoom(int id, string name, string description, Floors[] levels, bool startingRoom, bool[] hasDoors = null) 
+            : base(id, name, description, CardType.None, levels, startingRoom, hasDoors)
+        {
         }
     }
 }

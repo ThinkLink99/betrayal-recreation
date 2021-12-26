@@ -161,6 +161,8 @@ namespace betrayal_recreation_client
             {
                 // Draw Room Tile
                 var room = DrawRoom(TurnOrder.CurrentPlayer.CurrentFloor);
+                bool cardinRoom = room.CardInRoom != CardType.None;
+
                 room.AdjacentRooms[(int)Room.Directions.East] = TurnOrder.CurrentPlayer.GetCurrentRoom();
                 TurnOrder.CurrentPlayer
                     .GetCurrentRoom()
@@ -180,6 +182,10 @@ namespace betrayal_recreation_client
                         .SetCell(gX + x, gY + y, room);
 
                     MoveCurrentPlayer(direction);
+                    if (cardinRoom)
+                    {
+                        TurnOrder.CurrentPlayer.SpeedRemaining = 0;
+                    }
                 }
                 else
                 {
@@ -191,8 +197,12 @@ namespace betrayal_recreation_client
                 // alert the user there was no connected door in this direction
                 Console.WriteLine("ERROR: No Connecting Doorway.");
             }
+            else if (move_status == MoveStatus.OUT_OF_SPEED)
+            {
+                // alert the user there was no connected door in this direction
+                Console.WriteLine("ERROR: Ran out of speed");
+            }
         }
-
 
         public void PlaceRoomOnFloor (Room.Floors floor, Room room, int x, int y)
         {
@@ -208,6 +218,11 @@ namespace betrayal_recreation_client
 
             Console.WriteLine(" == Upper Floor == ");
             Floors[(int)Room.Floors.Upper].Print();
+        }
+        public void LogTurns ()
+        {
+            Console.WriteLine($"Current Turn: {TurnOrder.CurrentPlayer.Name}");
+            Console.WriteLine($"Next Turn: {TurnOrder.NextPlayer.Name}");
         }
 
         private void SetStartingRooms (Room[] startingRooms)
@@ -226,6 +241,15 @@ namespace betrayal_recreation_client
                     _floors[(int)room.Levels[0]].SetCell(FLOOR_WIDTH / 2, (FLOOR_HEIGHT / 2), room);
                 }
             }
+        }
+
+        public void StartTurn ()
+        {
+            TurnOrder.CurrentPlayer.StartTurn();
+        }
+        public void EndTurn ()
+        {
+            TurnOrder.EndTurn();
         }
     }
 }
