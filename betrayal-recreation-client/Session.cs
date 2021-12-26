@@ -134,6 +134,66 @@ namespace betrayal_recreation_client
                 return DrawRoom(currentFloor);
             }
         }
+        public void MoveCurrentPlayer (Room.Directions direction)
+        {
+            int x = 0;
+            int y = 0;
+
+            switch (direction)
+            {
+                case Room.Directions.North:
+                    y = -1;
+                    break;
+                case Room.Directions.South:
+                    y = 1;
+                    break;
+                case Room.Directions.West:
+                    x = -1;
+                    break;
+                case Room.Directions.East:
+                    x = 1;
+                    break;
+            }
+
+            var move_status = TurnOrder.CurrentPlayer.Move(direction);
+
+            if (move_status == MoveStatus.NEED_ROOM)
+            {
+                // Draw Room Tile
+                var room = DrawRoom(TurnOrder.CurrentPlayer.CurrentFloor);
+                room.AdjacentRooms[(int)Room.Directions.East] = TurnOrder.CurrentPlayer.GetCurrentRoom();
+                TurnOrder.CurrentPlayer
+                    .GetCurrentRoom()
+                    .AdjacentRooms[(int)Room.Directions.West] = room;
+
+                _floors[(int)TurnOrder.CurrentPlayer.CurrentFloor]
+                    .Find(
+                        TurnOrder.CurrentPlayer.GetCurrentRoom(), 
+                        out int gX, out int gY);
+
+                if (_floors[(int)TurnOrder.CurrentPlayer.CurrentFloor].NullOrEmptyAt (gX + x, gY + y))
+                {
+                    // we need to check for a room that does exist in the spot we are placing a tile on
+                    // that doesn't connect to the room we are coming from
+
+                    _floors[(int)TurnOrder.CurrentPlayer.CurrentFloor]
+                        .SetCell(gX + x, gY + y, room);
+
+                    MoveCurrentPlayer(direction);
+                }
+                else
+                {
+                    Console.WriteLine("ERROR: Room already exists at this spot");
+                }
+            }
+            else if (move_status == MoveStatus.NO_DOOR)
+            {
+                // alert the user there was no connected door in this direction
+                Console.WriteLine("ERROR: No Connecting Doorway.");
+            }
+        }
+
+
         public void PlaceRoomOnFloor (Room.Floors floor, Room room, int x, int y)
         {
             _floors[(int)floor].SetCell(x, y, room);

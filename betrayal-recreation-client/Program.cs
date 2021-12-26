@@ -13,8 +13,7 @@ namespace betrayal_recreation_client
         public static void Main ()
         {
             GameEvents.onRoomDrawn += delegate (Room r) { Console.WriteLine($"Room drawn was: {r.Name}"); };
-
-            session = new Session(new List<Room>()
+            List<Room> rooms = new List<Room>()
             {
                 // Starting Rooms
                 new Room(1, "Grand Entrance", "Grand Entrance", new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { true, true, false, true }),
@@ -24,11 +23,17 @@ namespace betrayal_recreation_client
                 new Room(5, "Basement Landing", "Basement Landing", new Room.Floors[] { Room.Floors.Basement }, true, new bool[] { true, true, true, true }),
 
                 // Non-starting Rooms
-                new Room(6, "Hallway", "Hallway", new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false),
-                new Room(7, "Creaky Hallway", "Hallway", new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false),
-                new Room(8, "Coal Chute", "Coal Chute", new Room.Floors[] { Room.Floors.Ground, Room.Floors.Upper }, false),
-                new Room(9, "Master Bedroom", "Master Bedroom", new Room.Floors[] { Room.Floors.Upper }, false),
-            },
+                new Room(6, "Hallway", "Hallway", new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { true, true, true, true }),
+                new Room(7, "Creaky Hallway", "Hallway", new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { true, true, true, true }),
+                //new Room(8, "Coal Chute", "Coal Chute", new Room.Floors[] { Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { false, false, true, false }),
+                //new Room(9, "Master Bedroom", "Master Bedroom", new Room.Floors[] { Room.Floors.Upper }, false, new bool[] { false, true, true, true }),
+            };
+            rooms[0].AdjacentRooms[(int)Room.Directions.North] = rooms[1];
+            rooms[1].AdjacentRooms[(int)Room.Directions.South] = rooms[0];
+            rooms[1].AdjacentRooms[(int)Room.Directions.North] = rooms[2];
+            rooms[2].AdjacentRooms[(int)Room.Directions.South] = rooms[1];
+
+            session = new Session(rooms,
             new List<Player>()
             {
                 new Player(0, "ThinkLink99"),
@@ -49,8 +54,8 @@ namespace betrayal_recreation_client
             Console.WriteLine($"Current Turn: {session.TurnOrder.CurrentPlayer.Name}");
             Console.WriteLine($"Next Turn: {session.TurnOrder.NextPlayer.Name}");
 
-            //var room = session.DrawRoom(session.TurnOrder.CurrentPlayer.CurrentFloor);
-            //session.PlaceRoomOnFloor(session.TurnOrder.CurrentPlayer.CurrentFloor, room, 4, 5);
+            session.MoveCurrentPlayer(Room.Directions.North);
+            session.MoveCurrentPlayer(Room.Directions.West);
 
             session.LogFloors();
 

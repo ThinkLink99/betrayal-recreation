@@ -26,7 +26,7 @@ namespace betrayal_recreation_client
             {
                 for (int x = 0; x < _columns; x++)
                 {
-                    SetCell(x, y, new Room(0, "", "", null, false));
+                    SetCell(x, y, Room.Empty);
                 }
             }
         }
@@ -39,7 +39,7 @@ namespace betrayal_recreation_client
         {
             _grid[x, y] = value;
         }
-
+        
         public void Print ()
         {
             string borderH = "| ";
@@ -52,13 +52,44 @@ namespace betrayal_recreation_client
                 borderV = "| ";
                 for (int x = 0; x < _columns; x++)
                 {
-                    borderV += _grid[x, y].ID;
+                    var i = _grid[x, y].ID;
+                    borderV += i == 0 ? " " : i.ToString();
                     borderV += " ";
                 }
                 borderV += "|\n";
                 Console.Write(borderV);
             }
             Console.Write(borderH);
+        }
+        public bool Find (Room r, out int x, out int y)
+        {
+            x = 0; y = 0;
+
+            for (int gY = 0; gY < _rows; gY++)
+            {
+                for (int gX = 0; gX < _columns; gX++)
+                {
+                    if (_grid[gX, gY].ID == r.ID)
+                    {
+                        x = gX; y = gY;
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+        public bool NullOrEmptyAt (int x, int y)
+        {
+            var r = GetCell(x, y);
+            if (r == null || r.Equals(Room.Empty))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
