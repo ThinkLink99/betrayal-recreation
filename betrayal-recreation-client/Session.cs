@@ -25,6 +25,10 @@ namespace betrayal_recreation_client
         }
 
         public static event Action<Room, Player> onRoomLeave;
+        public static void RoomLeave(Room room, Player player)
+        {
+            onRoomLeave?.Invoke(room, player);
+        }
     }
 
     public class Session
@@ -66,6 +70,7 @@ namespace betrayal_recreation_client
             SetStartingRooms(rooms.Where(r => r.StartingRoom).ToArray());
 
             GameEvents.onRoomEnter += delegate (Room r, Player p) { r.RoomEnter(p); };
+            GameEvents.onRoomLeave += delegate (Room r, Player p) { r.RoomLeave(p); };
         }
         public Session(List<Room> rooms, List<Player> players)
         {
@@ -84,7 +89,9 @@ namespace betrayal_recreation_client
             };
 
             SetStartingRooms(rooms.Where(r => r.StartingRoom).ToArray());
+
             GameEvents.onRoomEnter += delegate (Room r, Player p) { r.RoomEnter(p); };
+            GameEvents.onRoomLeave += delegate (Room r, Player p) { r.RoomLeave(p); };
         }
         public Session(List<Room> rooms, List<Player> players, List<Character> characters)
         {
@@ -103,7 +110,9 @@ namespace betrayal_recreation_client
             };
 
             SetStartingRooms(rooms.Where(r => r.StartingRoom).ToArray());
+
             GameEvents.onRoomEnter += delegate (Room r, Player p) { r.RoomEnter(p); };
+            GameEvents.onRoomLeave += delegate (Room r, Player p) { r.RoomLeave(p); };
         }
 
         public List<Character> Characters { get => _characters; set => _characters = value; }

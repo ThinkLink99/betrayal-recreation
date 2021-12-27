@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace betrayal_recreation_client
 {
@@ -44,6 +43,10 @@ namespace betrayal_recreation_client
         {
             if (player == null) return;
         }
+        public virtual void RoomLeave(Player player)
+        {
+            if (player == null) return;
+        }
         public override bool Equals(object obj)
         {
             if (!(obj is Room)) return false;
@@ -81,48 +84,18 @@ namespace betrayal_recreation_client
         public override void RoomEnter(Player player)
         {
             for (int i = 0; i < _roomActions.Count; i++)
-                _roomActions[i].Run(player);
+            {
+                if (_roomActions[i].RunTime1 == RoomAction.RunTime.ROOM_ENTER)
+                    _roomActions[i].Run(player);
+            }
         }
-    }
-
-    public abstract class RoomAction : BasicObjectInformation
-    {
-        protected RoomAction(int id, string name, string description) 
-            : base(id, name, description)
+        public override void RoomLeave(Player player)
         {
-        }
-
-        public abstract void Run(Player player);
-    }
-
-    public class MovePlayerRoomAction : RoomAction
-    {
-        Room _targetRoom;
-        public MovePlayerRoomAction(Room targetRoom) 
-            : base(0, "Move Player", "Move player to target room")
-        {
-            _targetRoom = targetRoom;
-        }
-
-        public override void Run(Player player)
-        {
-            Console.WriteLine($"{player.Name} has moved to {_targetRoom.Name}");
-            player.SetCurrentRoom (_targetRoom);
-        }
-    }
-    public class MovePlayerFloorAction : RoomAction
-    {
-        Room.Floors _targetFloor;
-        public MovePlayerFloorAction(Room.Floors targetFloor)
-            : base(0, "Move Player", "Move player to target room")
-        {
-            _targetFloor = targetFloor;
-        }
-
-        public override void Run(Player player)
-        {
-            Console.WriteLine($"{player.Name} has moved to {_targetFloor} floor");
-            player.CurrentFloor = _targetFloor;
+            for (int i = 0; i < _roomActions.Count; i++)
+            {
+                if (_roomActions[i].RunTime1 == RoomAction.RunTime.ROOM_LEAVE)
+                    _roomActions[i].Run(player);
+            }
         }
     }
 }
