@@ -1,4 +1,6 @@
-﻿namespace betrayal_recreation_client
+﻿using System.Collections.Generic;
+
+namespace betrayal_recreation_client
 {
     public class Room : BasicObjectInformation
     {
@@ -63,9 +65,30 @@
 
     public class SpecialRoom : Room
     {
-        public SpecialRoom(int id, string name, string description, Floors[] levels, bool startingRoom, bool[] hasDoors = null) 
+        public List<RoomAction> _roomActions;
+
+        public SpecialRoom(int id, string name, string description, Floors[] levels, bool startingRoom, bool[] hasDoors, params RoomAction[] roomActions)
             : base(id, name, description, CardType.None, levels, startingRoom, hasDoors)
         {
+            _roomActions = new List<RoomAction>(roomActions);
+        }
+    }
+
+    public abstract class RoomAction : BasicObjectInformation
+    {
+        protected RoomAction(int id, string name, string description) 
+            : base(id, name, description)
+        {
+        }
+    }
+
+    public class MovePlayerRoomAction : RoomAction
+    {
+        Room _targetRoom;
+        public MovePlayerRoomAction(Room targetRoom) 
+            : base(0, "Move Player", "Move player to target room")
+        {
+            _targetRoom = targetRoom;
         }
     }
 }
