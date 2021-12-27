@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace betrayal_recreation_client
 {
@@ -39,6 +40,10 @@ namespace betrayal_recreation_client
             _hasDoors = hasDoors ?? new bool[4];
         }
 
+        public virtual void RoomEnter (Player player)
+        {
+            if (player == null) return;
+        }
         public override bool Equals(object obj)
         {
             if (!(obj is Room)) return false;
@@ -72,6 +77,12 @@ namespace betrayal_recreation_client
         {
             _roomActions = new List<RoomAction>(roomActions);
         }
+
+        public override void RoomEnter(Player player)
+        {
+            for (int i = 0; i < _roomActions.Count; i++)
+                _roomActions[i].Run(player);
+        }
     }
 
     public abstract class RoomAction : BasicObjectInformation
@@ -80,6 +91,8 @@ namespace betrayal_recreation_client
             : base(id, name, description)
         {
         }
+
+        public abstract void Run(Player player);
     }
 
     public class MovePlayerRoomAction : RoomAction
@@ -89,6 +102,27 @@ namespace betrayal_recreation_client
             : base(0, "Move Player", "Move player to target room")
         {
             _targetRoom = targetRoom;
+        }
+
+        public override void Run(Player player)
+        {
+            Console.WriteLine($"{player.Name} has moved to {_targetRoom.Name}");
+            player.SetCurrentRoom (_targetRoom);
+        }
+    }
+    public class MovePlayerFloorAction : RoomAction
+    {
+        Room.Floors _targetFloor;
+        public MovePlayerFloorAction(Room.Floors targetFloor)
+            : base(0, "Move Player", "Move player to target room")
+        {
+            _targetFloor = targetFloor;
+        }
+
+        public override void Run(Player player)
+        {
+            Console.WriteLine($"{player.Name} has moved to {_targetFloor} floor");
+            player.CurrentFloor = _targetFloor;
         }
     }
 }

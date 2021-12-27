@@ -35,7 +35,7 @@ namespace betrayal_recreation_client
             temp.AddRange(_drawPile);
 
             var count = temp.Count;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i <= count; i++)
             {
                 var rand = new Random();
                 var r = rand.Next(0, count);

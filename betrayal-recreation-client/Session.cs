@@ -18,8 +18,13 @@ namespace betrayal_recreation_client
             onRoomDrawn?.Invoke(room);
         }
 
-        // TODO: Replace string with Player once player controllers are set up
-        public static event Action<Room, string> onRoomLeave;
+        public static event Action<Room, Player> onRoomEnter;
+        public static void RoomEnter (Room room, Player player)
+        {
+            onRoomEnter?.Invoke(room, player);
+        }
+
+        public static event Action<Room, Player> onRoomLeave;
     }
 
     public class Session
@@ -59,6 +64,8 @@ namespace betrayal_recreation_client
             };
 
             SetStartingRooms(rooms.Where(r => r.StartingRoom).ToArray());
+
+            GameEvents.onRoomEnter += delegate (Room r, Player p) { r.RoomEnter(p); };
         }
         public Session(List<Room> rooms, List<Player> players)
         {
@@ -77,6 +84,7 @@ namespace betrayal_recreation_client
             };
 
             SetStartingRooms(rooms.Where(r => r.StartingRoom).ToArray());
+            GameEvents.onRoomEnter += delegate (Room r, Player p) { r.RoomEnter(p); };
         }
         public Session(List<Room> rooms, List<Player> players, List<Character> characters)
         {
@@ -95,6 +103,7 @@ namespace betrayal_recreation_client
             };
 
             SetStartingRooms(rooms.Where(r => r.StartingRoom).ToArray());
+            GameEvents.onRoomEnter += delegate (Room r, Player p) { r.RoomEnter(p); };
         }
 
         public List<Character> Characters { get => _characters; set => _characters = value; }
@@ -131,6 +140,7 @@ namespace betrayal_recreation_client
             }
             else
             {
+                _roomDeck.Discard(r);
                 return DrawRoom(currentFloor);
             }
         }

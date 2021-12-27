@@ -54,6 +54,8 @@ namespace betrayal_recreation_client
                     _currentRoom = _currentRoom.AdjacentRooms[(int)direction];
 
                     _speedRemaining--;
+                    GameEvents.RoomEnter(_currentRoom, this);
+
                     return MoveStatus.MOVED;
                 }
                 else return MoveStatus.NEED_ROOM;
