@@ -15,17 +15,17 @@ namespace betrayal_recreation_client
             GameEvents.onRoomDrawn += delegate (Room r) { Console.WriteLine($"Room drawn was: {r.Name}"); };
             List<Room> rooms = new List<Room>();
             // Starting Rooms
-            rooms.Add(new Room(0, "Grand Entrance", "Grand Entrance", CardType.None, new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { true, true, false, true }));
-            rooms.Add(new Room(1, "Foyer", "Foyer", CardType.None, new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { true, true, true, true }));
-            rooms.Add(new Room(2, "Downstairs Landing", "Downstairs Landing", CardType.None, new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { false, true, true, true }));
-            rooms.Add(new Room(3, "Upper Landing", "Upper Landing", CardType.None, new Room.Floors[] { Room.Floors.Upper }, true, new bool[] { true, true, true, true }));
-            rooms.Add(new Room(4, "Basement Landing", "Basement Landing", CardType.None, new Room.Floors[] { Room.Floors.Basement }, true, new bool[] { true, true, true, true }));
+            rooms.Add(new Room(0, "Grand Entrance", "Grand Entrance", CardType.None, new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { true, true, false, true, false, false }));
+            rooms.Add(new Room(1, "Foyer", "Foyer", CardType.None, new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { true, true, true, true, false, false }));
+            rooms.Add(new Room(2, "Downstairs Landing", "Downstairs Landing", CardType.None, new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { false, true, true, true, true, false }));
+            rooms.Add(new Room(3, "Upper Landing", "Upper Landing", CardType.None, new Room.Floors[] { Room.Floors.Upper }, true, new bool[] { true, true, true, true, true, false, false, true }));
+            rooms.Add(new Room(4, "Basement Landing", "Basement Landing", CardType.None, new Room.Floors[] { Room.Floors.Basement }, true, new bool[] { true, true, true, true, false, false }));
             // Non-starting Rooms
             //rooms.Add(new Room(5, "Hallway", "Hallway", CardType.None, new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { true, true, true, true }));
             //rooms.Add(new Room(6, "Creaky Hallway", "Hallway", CardType.None, new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { true, true, true, true }));
-            rooms.Add(new SpecialRoom(7, "Coal Chute", "Coal Chute", new Room.Floors[] { Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { false, false, true, false }, new MovePlayerRoomAction(rooms[4]), new MovePlayerFloorAction(Room.Floors.Basement)));
+            rooms.Add(new SpecialRoom(7, "Coal Chute", "Coal Chute", new Room.Floors[] { Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { false, false, true, false, false, false }, new MovePlayerRoomAction(rooms[4]), new MovePlayerFloorAction(Room.Floors.Basement)));
             //rooms.Add(new Room(8, "Master Bedroom", "Master Bedroom", CardType.Event, new Room.Floors[] { Room.Floors.Ground }, false, new bool[] { false, true, true, true }));
-            rooms.Add(new Room(9, "Furnace Room", "Furnace Room", CardType.Omen, new Room.Floors[] { Room.Floors.Basement }, false, new bool[] { false, true, true, true }));
+            rooms.Add(new Room(9, "Furnace Room", "Furnace Room", CardType.Omen, new Room.Floors[] { Room.Floors.Basement }, false, new bool[] { false, true, true, true, false, false }));
 
             rooms[0].AdjacentRooms[(int)Room.Directions.North] = rooms[1];
             rooms[1].AdjacentRooms[(int)Room.Directions.South] = rooms[0];

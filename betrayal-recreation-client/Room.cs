@@ -9,7 +9,9 @@ namespace betrayal_recreation_client
             North = 0,
             South = 2,
             East = 1,
-            West = 3
+            West = 3,
+            Upstairs = 4,
+            Downstairs = 5
         }
         public enum Floors
         {
@@ -20,7 +22,7 @@ namespace betrayal_recreation_client
 
         private Room[] _adjacentRooms = new Room[4];
         private CardType _cardInRoom;
-        private bool[] _hasDoors = new bool[4];
+        private bool[] _hasDoors = new bool[6];
         private Floors[] _levels = new Floors[3];
         private bool _startingRoom = false;
 
@@ -36,7 +38,7 @@ namespace betrayal_recreation_client
             _cardInRoom = cardInRoom;
             _levels = levels;
             _startingRoom = startingRoom;
-            _hasDoors = hasDoors ?? new bool[4];
+            _hasDoors = hasDoors ?? new bool[6];
         }
 
         public virtual void RoomEnter (Player player)
