@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace betrayal_recreation_client
 {
-    public enum MoveStatus { MOVED, CARD_IN_ROOM, NEED_ROOM, NO_DOOR, OUT_OF_SPEED }
+    public enum MoveStatus { NO_MOVE, MOVED, CARD_IN_ROOM, NEED_ROOM, NO_DOOR, OUT_OF_SPEED }
     public class Player : BasicObjectInformation
     {
         Character _character;
@@ -47,10 +48,22 @@ namespace betrayal_recreation_client
         {
             if (_speedRemaining == 0) return MoveStatus.OUT_OF_SPEED;
 
+            if (direction == Room.Directions.Upstairs && _currentFloor == Room.Floors.Upper) return MoveStatus.NO_MOVE;
+            if (direction == Room.Directions.Downstairs && _currentFloor == Room.Floors.Basement) return MoveStatus.NO_MOVE;
+
             if (_currentRoom.HasDoors[(int)direction])
             {
                 if (_currentRoom.AdjacentRooms[(int)direction] != null)
                 {
+                    if (direction == Room.Directions.Upstairs)
+                    {
+                        _currentFloor = (Room.Floors)Enum.Parse(typeof(Room.Floors), ((int)_currentFloor + 1).ToString());
+                    }
+                    if (direction == Room.Directions.Downstairs)
+                    {
+                        _currentFloor = (Room.Floors)Enum.Parse(typeof(Room.Floors), ((int)_currentFloor - 1).ToString());
+                    }
+
                     _currentRoom = _currentRoom.AdjacentRooms[(int)direction];
 
                     _speedRemaining--;

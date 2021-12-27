@@ -20,7 +20,7 @@ namespace betrayal_recreation_client
             Upper = 2
         }
 
-        private Room[] _adjacentRooms = new Room[4];
+        private Room[] _adjacentRooms = new Room[6];
         private CardType _cardInRoom;
         private bool[] _hasDoors = new bool[6];
         private Floors[] _levels = new Floors[3];
