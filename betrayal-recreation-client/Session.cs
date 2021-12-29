@@ -47,6 +47,8 @@ namespace betrayal_recreation_shared
         const int FLOOR_WIDTH = 10;
         const int FLOOR_HEIGHT = 10;
 
+        private int _omensInPlay = 0;
+
         private List<Character> _characters;
         private List<Player> _players;
 
@@ -55,6 +57,8 @@ namespace betrayal_recreation_shared
         private Deck<Omen> _omenDeck;
 
         private Deck<Room> _roomDeck;
+
+        private Die[] _dice;
 
         private List<Room> _startingRooms;
 
@@ -85,7 +89,7 @@ namespace betrayal_recreation_shared
         {
             _characters = new List<Character>();
             _players = new List<Player>();
-
+            _dice = new Die[8];
             _roomDeck = new Deck<Room>(rooms.Where(r => !r.StartingRoom).ToList());
 
             _turnOrder = new TurnOrder(new List<Player>());
@@ -101,6 +105,12 @@ namespace betrayal_recreation_shared
 
             GameEvents.onRoomEnter += delegate (Room r, Player p) { r.RoomEnter(p); };
             GameEvents.onRoomLeave += delegate (Room r, Player p) { r.RoomLeave(p); };
+            GameEvents.onOmenPickup += delegate (Omen o, Player p)
+            {
+                _omensInPlay += 1;
+
+                HauntRoll();
+            };
         }
         private void NewSession(List<Room> rooms, List<Character> characters)
         {
@@ -286,6 +296,21 @@ namespace betrayal_recreation_shared
         public void EndTurn ()
         {
             TurnOrder.EndTurn();
+        }
+
+        public void HauntRoll ()
+        {
+            int roll = 0;
+            for (int i = 0; i < 6; i++)
+            {
+                roll += _dice[i].Roll();
+            }
+
+            if (roll < _omensInPlay)
+            {
+                // do haunt
+                Logger.LogInfo("HAUNT BEGINS");
+            }
         }
     }
 }
