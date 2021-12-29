@@ -29,6 +29,17 @@ namespace betrayal_recreation_shared
         {
             onRoomLeave?.Invoke(room, player);
         }
+
+        public static event Action<Omen, Player> onOmenPickup;
+        public static void OmenPickup(Omen omen, Player player)
+        {
+            onOmenPickup?.Invoke(omen, player);
+        }
+        public static event Action<Omen, Player> onOmenLost;
+        public static void OmenLost(Omen omen, Player player)
+        {
+            onOmenLost?.Invoke(omen, player);
+        }
     }
 
     public class Session
@@ -53,6 +64,25 @@ namespace betrayal_recreation_shared
 
         public Session (List<Room> rooms)
         {
+            NewSession(rooms);
+        }
+        public Session(List<Room> rooms, List<Character> characters)
+        {
+            NewSession(rooms, characters);
+        }
+        public Session(List<Room> rooms, List<Character> characters, List<Player> players)
+        {
+            NewSession(rooms, characters, players);
+        }
+
+        public List<Character> Characters { get => _characters; set => _characters = value; }
+        public List<Grid> Floors { get => _floors; set => _floors = value; }
+        public TurnOrder TurnOrder { get => _turnOrder; set => _turnOrder = value; }
+        public List<Player> Players { get => _players; set => _players = value; }
+        public List<Room> StartingRooms { get => _startingRooms; set => _startingRooms = value; }
+
+        private void NewSession (List<Room> rooms)
+        {
             _characters = new List<Character>();
             _players = new List<Player>();
 
@@ -72,54 +102,19 @@ namespace betrayal_recreation_shared
             GameEvents.onRoomEnter += delegate (Room r, Player p) { r.RoomEnter(p); };
             GameEvents.onRoomLeave += delegate (Room r, Player p) { r.RoomLeave(p); };
         }
-        public Session(List<Room> rooms, List<Player> players)
+        private void NewSession(List<Room> rooms, List<Character> characters)
         {
-            _characters = new List<Character>();
-            _players = players;
+            NewSession(rooms);
 
-            _roomDeck = new Deck<Room>(rooms.Where(r => !r.StartingRoom).ToList());
-
-            _turnOrder = new TurnOrder(players);
-
-            _floors = new List<Grid>()
-            {
-                new Grid(1, FLOOR_WIDTH, FLOOR_HEIGHT),
-                new Grid(1, FLOOR_WIDTH, FLOOR_HEIGHT),
-                new Grid(1, FLOOR_WIDTH, FLOOR_HEIGHT),
-            };
-
-            SetStartingRooms(rooms.Where(r => r.StartingRoom).ToArray());
-
-            GameEvents.onRoomEnter += delegate (Room r, Player p) { r.RoomEnter(p); };
-            GameEvents.onRoomLeave += delegate (Room r, Player p) { r.RoomLeave(p); };
-        }
-        public Session(List<Room> rooms, List<Player> players, List<Character> characters)
-        {
             _characters = characters;
-            _players = players;
-
-            _roomDeck = new Deck<Room>(rooms.Where(r => !r.StartingRoom).ToList());
-
-            _turnOrder = new TurnOrder(players);
-
-            _floors = new List<Grid>()
-            {
-                new Grid(1, FLOOR_WIDTH, FLOOR_HEIGHT),
-                new Grid(1, FLOOR_WIDTH, FLOOR_HEIGHT),
-                new Grid(1, FLOOR_WIDTH, FLOOR_HEIGHT),
-            };
-
-            SetStartingRooms(rooms.Where(r => r.StartingRoom).ToArray());
-
-            GameEvents.onRoomEnter += delegate (Room r, Player p) { r.RoomEnter(p); };
-            GameEvents.onRoomLeave += delegate (Room r, Player p) { r.RoomLeave(p); };
         }
+        private void NewSession(List<Room> rooms, List<Character> characters, List<Player> players)
+        {
+            NewSession(rooms, characters);
 
-        public List<Character> Characters { get => _characters; set => _characters = value; }
-        public List<Grid> Floors { get => _floors; set => _floors = value; }
-        public TurnOrder TurnOrder { get => _turnOrder; set => _turnOrder = value; }
-        public List<Player> Players { get => _players; set => _players = value; }
-        public List<Room> StartingRooms { get => _startingRooms; set => _startingRooms = value; }
+            _players = players;
+            _turnOrder = new TurnOrder(players);
+        }
 
         public void AddPlayer (Player player)
         {
@@ -157,19 +152,24 @@ namespace betrayal_recreation_shared
         {
             int x = 0;
             int y = 0;
+            Room.Directions opposite = direction;
 
             switch (direction)
             {
                 case Room.Directions.North:
+                    opposite = Room.Directions.South;
                     y = -1;
                     break;
                 case Room.Directions.South:
+                    opposite = Room.Directions.North;
                     y = 1;
                     break;
                 case Room.Directions.West:
+                    opposite = Room.Directions.East;
                     x = -1;
                     break;
                 case Room.Directions.East:
+                    opposite = Room.Directions.West;
                     x = 1;
                     break;
             }
@@ -182,10 +182,10 @@ namespace betrayal_recreation_shared
                 var room = DrawRoom(TurnOrder.CurrentPlayer.CurrentFloor);
                 bool cardinRoom = room.CardInRoom != CardType.None;
 
-                room.AdjacentRooms[(int)Room.Directions.East] = TurnOrder.CurrentPlayer.GetCurrentRoom();
+                room.AdjacentRooms[(int)opposite] = TurnOrder.CurrentPlayer.GetCurrentRoom();
                 TurnOrder.CurrentPlayer
                     .GetCurrentRoom()
-                    .AdjacentRooms[(int)Room.Directions.West] = room;
+                    .AdjacentRooms[(int)direction] = room;
 
                 _floors[(int)TurnOrder.CurrentPlayer.CurrentFloor]
                     .Find(
@@ -204,6 +204,23 @@ namespace betrayal_recreation_shared
                     if (cardinRoom)
                     {
                         TurnOrder.CurrentPlayer.SpeedRemaining = 0;
+                        Card card = null;
+                        switch (room.CardInRoom)
+                        {
+                            case CardType.Omen:
+                                card = _omenDeck.Draw();
+
+                                GameEvents.OmenPickup((Omen)card, TurnOrder.CurrentPlayer);
+                                break;
+                            case CardType.Item:
+                                card = _itemDeck.Draw();
+                                break;
+                            case CardType.Event:
+                                card = _eventDeck.Draw();
+                                break;
+                        }
+
+                        TurnOrder.CurrentPlayer.AddCard(card);
                     }
                 }
                 else

@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 
 namespace betrayal_recreation_shared
 {
+    public enum PlayerStats { MIGHT, SPEED, SANITY, KNOWLEDGE }
     public enum MoveStatus { NO_MOVE, MOVED, CARD_IN_ROOM, NEED_ROOM, NO_DOOR, OUT_OF_SPEED }
     public class Player : BasicObjectInformation
     {
@@ -11,10 +12,17 @@ namespace betrayal_recreation_shared
         Room.Floors _currentFloor;
         Room _currentRoom;
         int _speedRemaining = 0;
+        int[] _buffs;
+        List<Card> _cards;
 
         public Character Character { get => _character; set => _character = value; }
         public Room.Floors CurrentFloor { get => _currentFloor; set => _currentFloor = value; }
         public int SpeedRemaining { get => _speedRemaining; set => _speedRemaining = value; }
+
+        public int Might => _character.Might + _buffs[(int)PlayerStats.MIGHT];
+        public int Speed => _character.Speed + _buffs[(int)PlayerStats.SPEED];
+        public int Sanity => _character.Sanity + _buffs[(int)PlayerStats.SANITY];
+        public int Knowledge => _character.Knowledge + _buffs[(int)PlayerStats.KNOWLEDGE];
 
         public Player(int id, string name, Character character)
             : base(id, name, "")
@@ -24,6 +32,10 @@ namespace betrayal_recreation_shared
             _currentFloor = Room.Floors.Ground;
             _currentRoom = null;
             _speedRemaining = 3;
+
+            _buffs = new int[4];
+
+            _cards = new List<Card>();
         }
         public Player(int id, string name)
             : base(id, name, "")
@@ -32,6 +44,10 @@ namespace betrayal_recreation_shared
             _currentFloor = Room.Floors.Ground;
             _currentRoom = null;
             _speedRemaining = 3;
+
+            _buffs = new int[4];
+
+            _cards = new List<Card>();
         }
 
         public Room GetCurrentRoom ()
@@ -78,6 +94,20 @@ namespace betrayal_recreation_shared
         public void StartTurn ()
         {
             _speedRemaining = Character.Speed;
+        }
+
+        public void AddBuff (PlayerStats stat, int buff)
+        {
+            _buffs[(int)stat] += buff;
+        }
+        public void RemoveBuff(PlayerStats stat, int buff)
+        {
+            _buffs[(int)stat] -= buff;
+        }
+
+        public void AddCard (Card card)
+        {
+            _cards.Add(card);
         }
     }
 }

@@ -7,8 +7,8 @@
     <ProjectGuid>{6DC6E742-B9FE-4FC5-A960-45902A198BBA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>betrayal_recreation_client</RootNamespace>
-    <AssemblyName>betrayal_recreation_client</AssemblyName>
+    <RootNamespace>betrayal_recreation_shared</RootNamespace>
+    <AssemblyName>betrayal_recreation_shared</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -56,11 +56,17 @@
   <ItemGroup>
     <Compile Include="BasicObjectInformation.cs" />
     <Compile Include="Card.cs" />
+    <Compile Include="CardAction.cs" />
+    <Compile Include="CardActions\BuffCardAction.cs" />
+    <Compile Include="CardActions\DebuffCardAction.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Deck.cs" />
+    <Compile Include="Event.cs" />
     <Compile Include="Grid.cs" />
+    <Compile Include="Item.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Omen.cs" />
     <Compile Include="RoomActions\MovePlayerFloorAction.cs" />
     <Compile Include="RoomActions\MovePlayerRoomAction.cs" />
     <Compile Include="Player.cs" />

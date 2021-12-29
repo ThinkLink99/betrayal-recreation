@@ -58,7 +58,7 @@ namespace betrayal_recreation_client.WinForms
             new List<Character>()
             {
                 new Character(0, "Trey", "Mar 1 1999", "blue", new int[] { }, new int[] { }, new int[] { }, new int[] { 4 }, 0, 0, 0, 0),
-                new Character(1, "Dylan", "Jun 4 2002", "purple", new int[] { }, new int[] { }, new int[] { }, new int[] { }, 0, 0, 0, 0)
+                new Character(1, "Dylan", "Jun 4 2002", "purple", new int[] { }, new int[] { }, new int[] { }, new int[] { 3 }, 0, 0, 0, 0)
             });
 
             session.AssignCharacterToPlayer(0, 0);
@@ -149,6 +149,7 @@ namespace betrayal_recreation_client.WinForms
             Console.Clear();
             session.EndTurn();
             session.LogTurns();
+            session.StartTurn();
 
             lblCurrentTurn.Text = "Current Turn: " + session.TurnOrder.CurrentPlayer.Name;
 

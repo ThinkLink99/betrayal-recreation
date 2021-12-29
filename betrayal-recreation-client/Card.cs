@@ -1,44 +1,34 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
 
 namespace betrayal_recreation_shared
 {
     public enum CardType { Event, Item, Omen, None }
-    public abstract class Card : BasicObjectInformation
+    public abstract class Card : PlayerItem
     {
         CardType _type;
+        protected List<CardAction> _cardActions;
 
-        public Card(int id, string name, string desc, CardType cardType) :
-            base (id, name, desc)
+        public CardType Type { get => _type; }
+
+        public Card(int id, string name, string desc, CardType cardType, bool canDrop = true, bool canTrade = true, bool canSteal = true) :
+            base (id, name, desc, canDrop, canTrade, canSteal)
         {
             _type = cardType;
         }
     }
 
-    public class Omen : Card
+    public abstract class PlayerItem : BasicObjectInformation
     {
-        public bool HasBeenUsed { get; set; }
-        public bool CanDrop { get; set; }
-        
-        public Omen(int id, string name, string desc, bool canDrop) :
-            base(id, name, desc, CardType.Omen)
-        {
-            CanDrop = canDrop;
-        }
-    }
-    public class Event : Card
-    {
-        public Event(int id, string name, string desc) :
-        base(id, name, desc, CardType.Event)
-        {
+        private bool _canDrop = false;
+        private bool _canTrade = false;
+        private bool _canSteal = false;
 
-        }
-    }
-    public class Item : Card
-    {
-        public Item(int id, string name, string desc) :
-        base(id, name, desc, CardType.Item)
+        protected PlayerItem(int id, string name, string description, bool canDrop = true, bool canTrade = true, bool canSteal = true)
+            : base(id, name, description)
         {
-
+            _canDrop = canDrop;
+            _canTrade = canTrade;
+            _canSteal = canSteal;
         }
     }
 }
