@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace betrayal_recreation_client
+namespace betrayal_recreation_shared
 {
     public class Room : BasicObjectInformation
     {

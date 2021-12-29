@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace betrayal_recreation_client
+namespace betrayal_recreation_shared
 {
     public enum MoveStatus { NO_MOVE, MOVED, CARD_IN_ROOM, NEED_ROOM, NO_DOOR, OUT_OF_SPEED }
     public class Player : BasicObjectInformation

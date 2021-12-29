@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace betrayal_recreation_client
+namespace betrayal_recreation_shared
 {
     public enum CardType { Event, Item, Omen, None }
     public abstract class Card : BasicObjectInformation

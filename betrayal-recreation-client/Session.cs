@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace betrayal_recreation_client
+namespace betrayal_recreation_shared
 {
     public static class GameEvents
     {
@@ -33,8 +33,8 @@ namespace betrayal_recreation_client
 
     public class Session
     {
-        const int FLOOR_WIDTH = 25;
-        const int FLOOR_HEIGHT = 25;
+        const int FLOOR_WIDTH = 10;
+        const int FLOOR_HEIGHT = 10;
 
         private List<Character> _characters;
         private List<Player> _players;

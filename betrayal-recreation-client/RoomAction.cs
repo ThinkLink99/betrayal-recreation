@@ -1,4 +1,4 @@
-﻿namespace betrayal_recreation_client
+﻿namespace betrayal_recreation_shared
 {
     public abstract class RoomAction : BasicObjectInformation
     {

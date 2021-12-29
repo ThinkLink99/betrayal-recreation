@@ -1,24 +1,39 @@
-﻿using System;
+﻿using betrayal_recreation_shared;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace betrayal_recreation_client
+namespace betrayal_recreation_client.WinForms
 {
-    static class Program
+    public partial class Form1 : Form
     {
-        static Session session;
+        Session session;
 
-        public static void Main ()
+        public Form1()
         {
+            InitializeComponent();
+
+            NewGame();
+        }
+
+
+        public void NewGame ()
+        {
+            Logger.Initialize(ConsoleColor.Green);
+
             GameEvents.onRoomDrawn += delegate (Room r) { Console.WriteLine($"Room drawn was: {r.Name}"); };
             List<Room> rooms = new List<Room>();
             // Starting Rooms
             rooms.Add(new Room(0, "Grand Entrance", "Grand Entrance", CardType.None, new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { true, true, false, true, false, false }));
             rooms.Add(new Room(1, "Foyer", "Foyer", CardType.None, new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { true, true, true, true, false, false }));
             rooms.Add(new Room(2, "Downstairs Landing", "Downstairs Landing", CardType.None, new Room.Floors[] { Room.Floors.Ground }, true, new bool[] { false, true, true, true, true, false }));
-            rooms.Add(new Room(3, "Upper Landing", "Upper Landing", CardType.None, new Room.Floors[] { Room.Floors.Upper }, true, new bool[] { true, true, true, true, true, false, false, true }));
+            rooms.Add(new Room(3, "Upper Landing", "Upper Landing", CardType.None, new Room.Floors[] { Room.Floors.Upper }, true, new bool[] { true, true, true, true, false, true }));
             rooms.Add(new Room(4, "Basement Landing", "Basement Landing", CardType.None, new Room.Floors[] { Room.Floors.Basement }, true, new bool[] { true, true, true, true, false, false }));
             // Non-starting Rooms
             rooms.Add(new Room(5, "Hallway", "Hallway", CardType.None, new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { true, true, true, true }));
@@ -54,33 +69,92 @@ namespace betrayal_recreation_client
 
             session.StartTurn();
             session.LogTurns();
-            Console.WriteLine($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
-            session.LogFloors();
+            lblCurrentTurn.Text = "Current Turn: " + session.TurnOrder.CurrentPlayer.Name;
 
+            Logger.LogInfo($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
+            session.LogFloors();
+            UpdateStats();
+        }
+
+        private void UpdateStats ()
+        {
+            string stats = "";
+            stats += "Current Floor: " + session.TurnOrder.CurrentPlayer.CurrentFloor.ToString() + Environment.NewLine;
+            stats += "Current Room: " + session.TurnOrder.CurrentPlayer.GetCurrentRoom().Name + Environment.NewLine;
+            stats += "Speed Remaining: " + session.TurnOrder.CurrentPlayer.SpeedRemaining.ToString() + Environment.NewLine;
+            lblStats.Text = stats;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+        
+        private void btnMoveNorth_Click(object sender, EventArgs e)
+        {
+            Console.Clear();
             session.MoveCurrentPlayer(Room.Directions.North);
-
-            Console.WriteLine($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
+            Logger.LogInfo($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
             session.LogFloors();
+            UpdateStats();
+        }
 
-            session.MoveCurrentPlayer(Room.Directions.North);
-
-            Console.WriteLine($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
+        private void btnMoveWest_Click(object sender, EventArgs e)
+        {
+            Console.Clear();
+            session.MoveCurrentPlayer(Room.Directions.West);
+            Logger.LogInfo($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
             session.LogFloors();
+            UpdateStats();
+        }
 
+        private void btnMoveSouth_Click(object sender, EventArgs e)
+        {
+            Console.Clear();
+            session.MoveCurrentPlayer(Room.Directions.South);
+            Logger.LogInfo($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
+            session.LogFloors();
+            UpdateStats();
+        }
+
+        private void btnMoveEast_Click(object sender, EventArgs e)
+        {
+            Console.Clear();
+            session.MoveCurrentPlayer(Room.Directions.East);
+            Logger.LogInfo($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
+            session.LogFloors();
+            UpdateStats();
+        }
+
+        private void btnMoveUpstairs_Click(object sender, EventArgs e)
+        {
+            Console.Clear();
             session.MoveCurrentPlayer(Room.Directions.Upstairs);
-
-            Console.WriteLine($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
+            Logger.LogInfo($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
             session.LogFloors();
+            UpdateStats();
+        }
 
-            session.MoveCurrentPlayer(Room.Directions.North);
-
-            Console.WriteLine($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
+        private void btnMoveDownstairs_Click(object sender, EventArgs e)
+        {
+            Console.Clear();
+            session.MoveCurrentPlayer(Room.Directions.Downstairs);
+            Logger.LogInfo($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
             session.LogFloors();
+            UpdateStats();
+        }
 
+        private void btnEndTurn_Click(object sender, EventArgs e)
+        {
+            Console.Clear();
             session.EndTurn();
             session.LogTurns();
 
-            Console.ReadKey();
+            lblCurrentTurn.Text = "Current Turn: " + session.TurnOrder.CurrentPlayer.Name;
+
+            Logger.LogInfo($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
+            session.LogFloors();
+            UpdateStats();
         }
     }
 }
