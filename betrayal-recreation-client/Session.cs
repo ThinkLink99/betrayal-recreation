@@ -74,6 +74,10 @@ namespace betrayal_recreation_shared
         {
             NewSession(rooms, characters);
         }
+        public Session(List<Room> rooms, List<Character> characters, List<Omen> omens, List<Item> items, List<Event> events)
+        {
+            NewSession(rooms, characters, omens, items, events);
+        }
         public Session(List<Room> rooms, List<Character> characters, List<Player> players)
         {
             NewSession(rooms, characters, players);
@@ -90,6 +94,9 @@ namespace betrayal_recreation_shared
             _characters = new List<Character>();
             _players = new List<Player>();
             _dice = new Die[8];
+            
+            for (int i = 0; i < _dice.Length; i++) _dice[i] = new Die(0, 1, 2, 0, 1, 2);
+
             _roomDeck = new Deck<Room>(rooms.Where(r => !r.StartingRoom).ToList());
 
             _turnOrder = new TurnOrder(new List<Player>());
@@ -117,6 +124,15 @@ namespace betrayal_recreation_shared
             NewSession(rooms);
 
             _characters = characters;
+        }
+        private void NewSession(List<Room> rooms, List<Character> characters, List<Omen> omens, List<Item> items, List<Event> events)
+        {
+            NewSession(rooms, characters);
+
+            _characters = characters;
+            _omenDeck = new Deck<Omen>(omens);
+            _itemDeck = new Deck<Item>(items);
+            _eventDeck = new Deck<Event>(events);
         }
         private void NewSession(List<Room> rooms, List<Character> characters, List<Player> players)
         {

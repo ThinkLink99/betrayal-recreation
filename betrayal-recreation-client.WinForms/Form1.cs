@@ -1,12 +1,6 @@
 ﻿using betrayal_recreation_shared;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace betrayal_recreation_client.WinForms
@@ -36,10 +30,10 @@ namespace betrayal_recreation_client.WinForms
             rooms.Add(new Room(3, "Upper Landing", "Upper Landing", CardType.None, new Room.Floors[] { Room.Floors.Upper }, true, new bool[] { true, true, true, true, false, true }));
             rooms.Add(new Room(4, "Basement Landing", "Basement Landing", CardType.None, new Room.Floors[] { Room.Floors.Basement }, true, new bool[] { true, true, true, true, false, false }));
             // Non-starting Rooms
-            rooms.Add(new Room(5, "Hallway", "Hallway", CardType.None, new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { true, true, true, true }));
-            rooms.Add(new Room(6, "Creaky Hallway", "Hallway", CardType.None, new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { true, true, true, true }));
+            //rooms.Add(new Room(5, "Hallway", "Hallway", CardType.None, new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { true, true, true, true }));
+            //rooms.Add(new Room(6, "Creaky Hallway", "Hallway", CardType.None, new Room.Floors[] { Room.Floors.Basement, Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { true, true, true, true }));
             rooms.Add(new SpecialRoom(7, "Coal Chute", "Coal Chute", new Room.Floors[] { Room.Floors.Ground, Room.Floors.Upper }, false, new bool[] { false, false, true, false, false, false }, new MovePlayerRoomAction(rooms[4]), new MovePlayerFloorAction(Room.Floors.Basement)));
-            rooms.Add(new Room(8, "Master Bedroom", "Master Bedroom", CardType.Event, new Room.Floors[] { Room.Floors.Ground }, false, new bool[] { false, true, true, true }));
+            //rooms.Add(new Room(8, "Master Bedroom", "Master Bedroom", CardType.Event, new Room.Floors[] { Room.Floors.Ground }, false, new bool[] { false, true, true, true }));
             rooms.Add(new Room(9, "Furnace Room", "Furnace Room", CardType.Omen, new Room.Floors[] { Room.Floors.Basement }, false, new bool[] { false, true, true, true, false, false }));
 
             rooms[0].AdjacentRooms[(int)Room.Directions.North] = rooms[1];
@@ -50,16 +44,19 @@ namespace betrayal_recreation_client.WinForms
             rooms[3].AdjacentRooms[(int)Room.Directions.Downstairs] = rooms[2];
 
             session = new Session(rooms,
-            new List<Player>()
-            {
-                new Player(0, "ThinkLink99"),
-                new Player(1, "MegaDillyBarr")
-            },
             new List<Character>()
             {
                 new Character(0, "Trey", "Mar 1 1999", "blue", new int[] { }, new int[] { }, new int[] { }, new int[] { 4 }, 0, 0, 0, 0),
                 new Character(1, "Dylan", "Jun 4 2002", "purple", new int[] { }, new int[] { }, new int[] { }, new int[] { 3 }, 0, 0, 0, 0)
-            });
+            },
+            new List<Omen>() {
+                new Omen(0, "Girl", "", false, false, false, new BuffCardAction(PlayerStats.SANITY, 1), new BuffCardAction(PlayerStats.KNOWLEDGE, 1))
+            },
+            new List<Item>() { },
+            new List<Event>() { });
+
+            session.AddPlayer(new Player(0, "ThinkLink99"));
+            session.AddPlayer(new Player(1, "MegaDillyBarr"));
 
             session.AssignCharacterToPlayer(0, 0);
             session.AssignCharacterToPlayer(1, 1);

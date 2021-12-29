@@ -35,15 +35,18 @@ namespace betrayal_recreation_shared
             temp.AddRange(_drawPile);
 
             var count = temp.Count;
-            for (int i = 0; i <= count; i++)
+            if (count > 0)
             {
-                var rand = new Random();
-                var r = rand.Next(0, count);
+                for (int i = 0; i <= count; i++)
+                {
+                    var rand = new Random();
+                    var r = rand.Next(0, count);
 
-                shuffled.Add(temp[r]);
-                temp.RemoveAt(r);
+                    shuffled.Add(temp[r]);
+                    temp.RemoveAt(r);
 
-                count--;
+                    count--;
+                }
             }
 
             _drawPile = new Queue<T>(shuffled);
