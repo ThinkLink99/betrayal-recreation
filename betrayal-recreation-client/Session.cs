@@ -328,5 +328,10 @@ namespace betrayal_recreation_shared
                 Logger.LogInfo("HAUNT BEGINS");
             }
         }
+
+        public void Save ()
+        {
+            Serializer.Save(this);
+        }
     }
-}
+}   

@@ -46,8 +46,8 @@ namespace betrayal_recreation_client.WinForms
             session = new Session(rooms,
             new List<Character>()
             {
-                new Character(0, "Trey", "Mar 1 1999", "blue", new int[] { }, new int[] { }, new int[] { }, new int[] { 4 }, 0, 0, 0, 0),
-                new Character(1, "Dylan", "Jun 4 2002", "purple", new int[] { }, new int[] { }, new int[] { }, new int[] { 3 }, 0, 0, 0, 0)
+                new Character(0, "Trey", "Mar 1 1999", "blue", new int[] { 0 }, new int[] { 0 }, new int[] { 0 }, new int[] { 4 }, 0, 0, 0, 0),
+                new Character(1, "Dylan", "Jun 4 2002", "purple", new int[] { 0 }, new int[] { 0 }, new int[] { 0 }, new int[] { 3 }, 0, 0, 0, 0)
             },
             new List<Omen>() {
                 new Omen(0, "Girl", "", false, false, false, new BuffCardAction(PlayerStats.SANITY, 1), new BuffCardAction(PlayerStats.KNOWLEDGE, 1))
@@ -153,6 +153,11 @@ namespace betrayal_recreation_client.WinForms
             Logger.LogInfo($"Speed Remaining: {session.TurnOrder.CurrentPlayer.SpeedRemaining}");
             session.LogFloors();
             UpdateStats();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            session.Save();
         }
     }
 }

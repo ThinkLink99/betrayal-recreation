@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace betrayal_recreation_shared.CardActions
+namespace betrayal_recreation_shared
 {
-    public class BuffCardAction : CardAction
+    public class BuffCardAction : ICardAction
     {
         int buff;
         PlayerStats stat;

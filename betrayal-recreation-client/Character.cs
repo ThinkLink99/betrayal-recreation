@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace betrayal_recreation_shared
 {
-    public class Character : Writable<Character>
+    public class Character : BasicObjectInformation
     {
         int[] _knowledgeArray;
         int[] _sanityArray;
@@ -30,9 +30,7 @@ namespace betrayal_recreation_shared
             Purple = 4,
             Yellow = 5
         }
-        public int ID { get; set; }
         public int Side { get; set; }
-        public string Name { get; set; }
         
         public string Color { get; set; }
         public string Birthday { get; set; }
@@ -45,9 +43,8 @@ namespace betrayal_recreation_shared
         public Character(int id, string name, string birthday, string color,
                          int[] knowledge, int[] sanity, int[] might, int[] speed,
                          int knowledgeIndex, int sanityIndex, int mightIndex, int speedIndex)
+            :base (id, name, "")
         {
-            ID = id;
-            Name = name;
             Color = color;
 
             _starting_knowledge_index = knowledgeIndex;
@@ -68,14 +65,13 @@ namespace betrayal_recreation_shared
             Birthday = birthday;
         }
         public Character(int id, int side)
+            :base (id, "", "")
         {
-            ID = id;
             Side = side;
         }
         public Character(Character character)
+            :base (character.ID, character.Name, "")
         {
-            ID = character.ID;
-            Name = character.Name;
             Color = character.Color;
             Birthday = character.Birthday;
         }

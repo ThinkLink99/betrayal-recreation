@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace betrayal_recreation_shared
 {
@@ -18,9 +14,10 @@ namespace betrayal_recreation_shared
         {
             _cellSize = cellSize;
             _columns = columns;
-            _rows = rows;
+            _rows = rows;   
 
-            _grid = new Room[_columns, _rows];
+            _grid = new Room[_columns, _rows];  
+            _ids = new int[_columns, _rows];
 
             for (int y = 0; y < _rows; y++)
             {
@@ -52,7 +49,7 @@ namespace betrayal_recreation_shared
                 borderV = "| ";
                 for (int x = 0; x < _columns; x++)
                 {
-                    var i = _grid[x, y].ID;
+                    var i = _ids[x, y];
                     borderV += i == -1 ? " " : i.ToString();
                     borderV += " ";
                 }
@@ -69,7 +66,7 @@ namespace betrayal_recreation_shared
             {
                 for (int gX = 0; gX < _columns; gX++)
                 {
-                    if (_grid[gX, gY].ID == r.ID)
+                    if (_ids[gX, gY] == r.ID)
                     {
                         x = gX; y = gY;
                         return true;

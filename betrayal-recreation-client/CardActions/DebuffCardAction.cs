@@ -1,6 +1,6 @@
-﻿namespace betrayal_recreation_shared.CardActions
+﻿namespace betrayal_recreation_shared
 {
-    public class DebuffCardAction : CardAction
+    public class DebuffCardAction : ICardAction
     {
         int buff;
         PlayerStats stat;

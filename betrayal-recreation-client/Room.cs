@@ -20,13 +20,13 @@ namespace betrayal_recreation_shared
             Upper = 2
         }
 
-        private Room[] _adjacentRooms = new Room[6];
+        private List<Room> _adjacentRooms = new List<Room>(6);
         private CardType _cardInRoom;
         private bool[] _hasDoors = new bool[6];
         private Floors[] _levels = new Floors[3];
         private bool _startingRoom = false;
 
-        public Room[] AdjacentRooms { get => _adjacentRooms; set => _adjacentRooms = value; }
+        public List<Room> AdjacentRooms { get => _adjacentRooms; set => _adjacentRooms = value; }
         public CardType CardInRoom { get => _cardInRoom; }
         public bool[] HasDoors { get => _hasDoors; set => _hasDoors = value; }
         public Floors[] Levels { get { return _levels; } }
@@ -49,6 +49,7 @@ namespace betrayal_recreation_shared
         {
             if (player == null) return;
         }
+
         public override bool Equals(object obj)
         {
             if (!(obj is Room)) return false;
@@ -75,19 +76,19 @@ namespace betrayal_recreation_shared
 
     public class SpecialRoom : Room
     {
-        public List<RoomAction> _roomActions;
+        public List<IRoomAction> _roomActions;
 
-        public SpecialRoom(int id, string name, string description, Floors[] levels, bool startingRoom, bool[] hasDoors, params RoomAction[] roomActions)
+        public SpecialRoom(int id, string name, string description, Floors[] levels, bool startingRoom, bool[] hasDoors, params IRoomAction[] roomActions)
             : base(id, name, description, CardType.None, levels, startingRoom, hasDoors)
         {
-            _roomActions = new List<RoomAction>(roomActions);
+            _roomActions = new List<IRoomAction>(roomActions);
         }
 
         public override void RoomEnter(Player player)
         {
             for (int i = 0; i < _roomActions.Count; i++)
             {
-                if (_roomActions[i].RunTime1 == RoomAction.RunTime.ROOM_ENTER)
+                if (_roomActions[i].RunTime1 == IRoomAction.RoomTriggers.ROOM_ENTER)
                     _roomActions[i].Run(player);
             }
         }
@@ -95,7 +96,7 @@ namespace betrayal_recreation_shared
         {
             for (int i = 0; i < _roomActions.Count; i++)
             {
-                if (_roomActions[i].RunTime1 == RoomAction.RunTime.ROOM_LEAVE)
+                if (_roomActions[i].RunTime1 == IRoomAction.RoomTriggers.ROOM_LEAVE)
                     _roomActions[i].Run(player);
             }
         }

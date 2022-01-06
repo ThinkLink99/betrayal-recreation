@@ -1,17 +1,32 @@
 ﻿using System;
+using System.Linq;
 
 namespace betrayal_recreation_shared
 {
-    public class MovePlayerFloorAction : RoomAction
+    public class MovePlayerFloorAction : IRoomAction
     {
         Room.Floors _targetFloor;
-        public MovePlayerFloorAction(Room.Floors targetFloor)
-            : base(0, "Move Player", "Move player to target room")
+        RoomEventTriggers[] _roomTriggers;
+
+        public MovePlayerFloorAction(Room.Floors targetFloor, params RoomEventTriggers[] roomTriggers)
         {
             _targetFloor = targetFloor;
+            _roomTriggers = roomTriggers;
         }
 
-        public override void Run(Player player)
+        public RoomEventTriggers[] RoomTriggers => _roomTriggers;
+
+        public bool ContainsTrigger(RoomEventTriggers trigger)
+        {
+            if (RoomTriggers == null) return false;
+            if (RoomTriggers.Contains(trigger))
+            {
+                return true;
+            }
+            else { return false; }
+        }
+
+        public void Run(Player player)
         {
             Console.WriteLine($"{player.Name} has moved to {_targetFloor} floor");
             player.CurrentFloor = _targetFloor;

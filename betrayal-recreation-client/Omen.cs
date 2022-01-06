@@ -2,10 +2,10 @@
 {
     public class Omen : Card
     {
-        public Omen(int id, string name, string desc, bool canDrop, bool canTrade, bool canSteal, params CardAction[] cardActions) :
+        public Omen(int id, string name, string desc, bool canDrop, bool canTrade, bool canSteal, params ICardAction[] cardActions) :
             base(id, name, desc, CardType.Omen, canDrop, canTrade, canSteal)
         {
-            base._cardActions = new System.Collections.Generic.List<CardAction>(cardActions);
+            base._cardActions = new System.Collections.Generic.List<ICardAction>(cardActions);
         }
     }
 }
