@@ -86,19 +86,9 @@ namespace betrayal_recreation_shared
 
         public override void RoomEnter(Player player)
         {
-            for (int i = 0; i < _roomActions.Count; i++)
-            {
-                if (_roomActions[i].RunTime1 == IRoomAction.RoomTriggers.ROOM_ENTER)
-                    _roomActions[i].Run(player);
-            }
         }
         public override void RoomLeave(Player player)
         {
-            for (int i = 0; i < _roomActions.Count; i++)
-            {
-                if (_roomActions[i].RunTime1 == IRoomAction.RoomTriggers.ROOM_LEAVE)
-                    _roomActions[i].Run(player);
-            }
         }
     }
 }

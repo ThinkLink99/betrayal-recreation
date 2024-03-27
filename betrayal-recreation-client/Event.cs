@@ -12,8 +12,7 @@
         {
             foreach (ICardAction action in _cardActions)
             {
-                if (action.ContainsTrigger(CardEventTriggers.PICKUP))
-                    action.Run(player);
+                action.Run(player, CardEventTriggers.PICKUP);
             }
         }
     }

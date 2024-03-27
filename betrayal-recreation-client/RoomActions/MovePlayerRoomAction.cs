@@ -2,7 +2,7 @@
 
 namespace betrayal_recreation_shared
 {
-    public class MovePlayerRoomAction : IRoomAction, ICardAction
+    public class MovePlayerRoomAction : IRoomAction
     {
         Room _targetRoom;
         public MovePlayerRoomAction(Room targetRoom) 
@@ -12,6 +12,13 @@ namespace betrayal_recreation_shared
 
         public CardEventTriggers CardTrigger => throw new NotImplementedException();
         public RoomEventTriggers RoomTrigger => RoomEventTriggers.ROOM_ENTER;
+
+        public RoomEventTriggers[] RoomTriggers => throw new NotImplementedException();
+
+        public bool ContainsTrigger(RoomEventTriggers trigger)
+        {
+            throw new NotImplementedException();
+        }
 
         public void Run(Player player)
         {

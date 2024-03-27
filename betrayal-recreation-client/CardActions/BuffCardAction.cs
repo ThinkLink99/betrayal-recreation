@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace betrayal_recreation_shared
 {
@@ -11,15 +8,26 @@ namespace betrayal_recreation_shared
         int buff;
         PlayerStats stat;
         public BuffCardAction(PlayerStats stat, int buff)
-            : base(0, "Player Buff", "Buff a player stat by a determined amount", CardEventTriggers.PICKUP)
         {
+            Triggers.Add(CardEventTriggers.PICKUP,
+                (player) =>
+                {
+                    player.AddBuff(stat, buff);
+                    return CardEventTriggers.PICKUP;
+                });
+
             this.stat = stat;
             this.buff = buff;
         }
 
-        public override void Run(Player player)
+        public Dictionary<CardEventTriggers, Func<Player, CardEventTriggers>> Triggers { get; set; }
+        public bool ContainsTrigger(CardEventTriggers trigger)
         {
-            player.AddBuff(stat, buff);
+            throw new System.NotImplementedException();
+        }
+        public void Run(Player player, CardEventTriggers trigger)
+        {
+            Triggers[trigger].Invoke(player);
         }
     }
 }

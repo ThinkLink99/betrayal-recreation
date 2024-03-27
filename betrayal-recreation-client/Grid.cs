@@ -9,6 +9,7 @@ namespace betrayal_recreation_shared
         private int _rows = 0;
 
         private Room[,] _grid;
+        private int[,] _ids;
 
         public Grid(float cellSize, int columns, int rows)
         {

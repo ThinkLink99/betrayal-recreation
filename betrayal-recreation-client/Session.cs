@@ -331,7 +331,6 @@ namespace betrayal_recreation_shared
 
         public void Save ()
         {
-            Serializer.Save(this);
         }
     }
 }   

@@ -1,19 +1,28 @@
-﻿namespace betrayal_recreation_shared
+﻿using System;
+using System.Collections.Generic;
+
+namespace betrayal_recreation_shared
 {
     public class DebuffCardAction : ICardAction
     {
-        int buff;
-        PlayerStats stat;
         public DebuffCardAction(PlayerStats stat, int buff)
-            : base(0, "Player Debuff", "Debuff a player stat by a determined amount", CardEventTriggers.LOST)
         {
-            this.stat = stat;
-            this.buff = buff;
+            Triggers.Add(CardEventTriggers.LOST,
+                (player) =>
+                {
+                    player.RemoveBuff(stat, buff);
+                    return CardEventTriggers.LOST;
+                });
         }
 
-        public override void Run(Player player)
+        public Dictionary<CardEventTriggers, Func<Player, CardEventTriggers>> Triggers { get; set; }
+        public bool ContainsTrigger(CardEventTriggers trigger)
         {
-            player.RemoveBuff(stat, buff);
+            throw new NotImplementedException();
+        }
+        public void Run(Player player, CardEventTriggers trigger)
+        {
+            Triggers[trigger].Invoke(player);
         }
     }
 }
