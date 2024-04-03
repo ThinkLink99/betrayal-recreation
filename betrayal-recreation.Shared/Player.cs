@@ -5,7 +5,7 @@ namespace betrayal_recreation_shared
 {
     public enum PlayerStats { MIGHT, SPEED, SANITY, KNOWLEDGE }
     public enum MoveStatus { NO_MOVE, MOVED, CARD_IN_ROOM, NEED_ROOM, NO_DOOR, OUT_OF_SPEED }
-    public class Player : BasicObjectInformation
+    public class Player : GameObject
     {
         Character _character;
         Room.Floors _currentFloor;
@@ -26,7 +26,7 @@ namespace betrayal_recreation_shared
         public Player(int id, string name, Character character)
             : base(id, name, "")
         {
-            Name = name;
+            objectInformation.Name = name;
             _character = character;
             _currentFloor = Room.Floors.Ground;
             _currentRoom = null;
@@ -39,7 +39,7 @@ namespace betrayal_recreation_shared
         public Player(int id, string name)
             : base(id, name, "")
         {
-            Name = name;
+            objectInformation.Name = name;
             _currentFloor = Room.Floors.Ground;
             _currentRoom = null;
             _speedRemaining = 3;

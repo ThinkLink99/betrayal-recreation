@@ -21,7 +21,7 @@ namespace betrayal_recreation_shared
             Console.WriteLine("-- Players --");
             foreach (Player p in players)
             {
-                Console.WriteLine($"{p.Name} [Character: {p.Character.Name}]");
+                Console.WriteLine($"{p.objectInformation.Name} [Character: {p.Character.Name}]");
             }
         }
         public static void LogRoomDeck (Deck<Room> deck)

@@ -82,11 +82,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\betrayal-recreation-client\betrayal-recreation-shared.csproj">
-      <Project>{6dc6e742-b9fe-4fc5-a960-45902a198bba}</Project>
-      <Name>betrayal-recreation-shared</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -28,7 +28,7 @@ namespace betrayal_recreation_shared
 
         public void Run(Player player)
         {
-            Console.WriteLine($"{player.Name} has moved to {_targetFloor} floor");
+            Console.WriteLine($"{player.objectInformation.Name} has moved to {_targetFloor} floor");
             player.CurrentFloor = _targetFloor;
         }
     }

@@ -22,7 +22,7 @@ namespace betrayal_recreation_shared
 
         public void Run(Player player)
         {
-            Console.WriteLine($"{player.Name} has moved to {_targetRoom.Name}");
+            Console.WriteLine($"{player.objectInformation.Name} has moved to {_targetRoom.Name}");
             player.SetCurrentRoom (_targetRoom);
         }
     }
